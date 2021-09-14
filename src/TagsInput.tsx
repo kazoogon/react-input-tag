@@ -9,8 +9,8 @@ interface TagInputProps {
   maxTags?: number
   canDuplicate?: boolean
   isFocusInput?: boolean
-  onAddTag?: (tags: Tags) => void
-  onRemoveTag?: (tags: Tags) => void
+  onAddTag?: (tag: string) => void
+  onRemoveTag?: (tag: string) => void
   onChangeTag?: (tags: Tags) => void
 }
 
@@ -36,8 +36,11 @@ export const TagsInput: VFC<TagInputProps> = ({
       const newTags = [
         ...prevTags.filter((_, index) => index !== indexToRemove),
       ]
-      onRemoveTag && setTimeout(() => onRemoveTag(newTags), 0)
-      onChangeTag && setTimeout(() => onChangeTag(newTags), 0)
+      const removedTag = [
+        ...prevTags.filter((_, index) => index === indexToRemove),
+      ][0]
+      onRemoveTag && onRemoveTag(removedTag)
+      onChangeTag && onChangeTag(newTags)
       verifyMaxTags(newTags)
 
       return newTags
@@ -55,8 +58,8 @@ export const TagsInput: VFC<TagInputProps> = ({
 
       setTags((prevTags) => {
         const newTags = [...prevTags, modifiedWord]
-        onAddTag && setTimeout(() => onAddTag(newTags), 0)
-        onChangeTag && setTimeout(() => onChangeTag(newTags), 0)
+        onAddTag && onAddTag(modifiedWord)
+        onChangeTag && onChangeTag(newTags)
         verifyMaxTags(newTags)
 
         return newTags
