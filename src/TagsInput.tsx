@@ -51,21 +51,21 @@ export const TagsInput: VFC<TagInputProps> = ({
     e: ChangeEvent<HTMLInputElement> | KeyboardEvent<HTMLInputElement>,
   ): void => {
     const word = e.currentTarget.value
-
-    if (word !== '') {
-      let modifiedWord = word.replace(/,/g, '')
-      if (existDuplicateWord(e, modifiedWord)) return
-
-      setTags((prevTags) => {
-        const newTags = [...prevTags, modifiedWord]
-        onAddTag && onAddTag(modifiedWord)
-        onChangeTag && onChangeTag(newTags)
-        verifyMaxTags(newTags)
-
-        return newTags
-      })
+    let modifiedWord = word.replace(/,/g, '')
+    if (modifiedWord.trim() === '' || existDuplicateWord(e, modifiedWord)) {
       e.currentTarget.value = ''
+      return
     }
+
+    setTags((prevTags) => {
+      const newTags = [...prevTags, modifiedWord]
+      onAddTag && onAddTag(modifiedWord)
+      onChangeTag && onChangeTag(newTags)
+      verifyMaxTags(newTags)
+
+      return newTags
+    })
+    e.currentTarget.value = ''
   }
 
   const existDuplicateWord = (
