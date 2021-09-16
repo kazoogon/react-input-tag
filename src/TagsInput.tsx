@@ -28,8 +28,8 @@ export const TagsInput: VFC<TagInputProps> = ({
   const [showInput, setShowInput] = useState<boolean>(true)
 
   useEffect(() => {
-    maxTags === 0 && setShowInput(false)
-  }, [maxTags])
+    maxTags && verifyMaxTags(tags)
+  }, [tags, maxTags])
 
   const removeTags = (indexToRemove: number) => {
     setTags((prevTags) => {
@@ -41,7 +41,6 @@ export const TagsInput: VFC<TagInputProps> = ({
       ][0]
       onRemoveTag && onRemoveTag(removedTag)
       onChangeTag && onChangeTag(newTags)
-      verifyMaxTags(newTags)
 
       return newTags
     })
@@ -61,7 +60,6 @@ export const TagsInput: VFC<TagInputProps> = ({
       const newTags = [...prevTags, modifiedWord]
       onAddTag && onAddTag(modifiedWord)
       onChangeTag && onChangeTag(newTags)
-      verifyMaxTags(newTags)
 
       return newTags
     })

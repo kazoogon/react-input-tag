@@ -15,6 +15,7 @@ export const App: VFC = () => {
           onChangeTag={(tags: string[]) => setTags(tags)}
           onAddTag={(tag: string) => setAddTag(tag)}
           onRemoveTag={(tag: string) => setRemoveTag(tag)}
+          maxTags={3}
         />
       </TagsInputDiv>
       <Params>
